@@ -6,7 +6,9 @@ on:
     branches:
     - test
     types:
-      closed   
+      closed 
+    paths: 
+    - service/**      
 
 jobs:
   my_job:
