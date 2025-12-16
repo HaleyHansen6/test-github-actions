@@ -2,6 +2,7 @@ name: My Pipeline
 
 on:
   repository_dispatch:
+    types: [harness-trigger]
   pull_request:
     branches:
     - test
