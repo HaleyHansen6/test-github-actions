@@ -1,0 +1,22 @@
+name: Trigger Harness Pipeline
+
+# Trigger on push to main branch (adjust as needed)
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  trigger-harness:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Trigger Harness Pipeline via Webhook
+        env:
+          HARNESS_WEBHOOK_URL: ${{ secrets.HARNESS_WEBHOOK_URL }}
+          HARNESS_API_KEY: ${{ secrets.HARNESS_SA_TOKEN }}
+        run: |
+          curl -X POST -H 'content-type: application/json' -H "X-Api-Key: ${{ secrets.HARNESS_SA_TOKEN }}" -H "X-Environment: development" --url 'https://app.harness.io/gateway/pipeline/api/webhook/custom/v2?accountIdentifier=0Z0vv0uwRoax_oZ62jBFfg&orgIdentifier=default&projectIdentifier=FrontendCICDPOC&pipelineIdentifier=Trigger_poc&triggerIdentifier=Test' -d '{"sample_key": "sample_value"}'
